@@ -1,0 +1,6 @@
+square
+squareup
+sqlalchemy
+pandas
+twilio
+snowflake-connector-python
