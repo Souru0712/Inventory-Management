@@ -4,7 +4,7 @@ Take a minute to inspect the dag scripts. Each dag object has a "start_date"
   which determines the point at which the Scheduler should start
 
 ## Components:
-DAG objects are responsible for scheduling jobs. they require a dag_id in order to have a reference to it as well as tasks so that the DAG can execute
+DAG objects are responsible for scheduling jobs. they require a dag_id in order to have a reference to it as well as tasks so that the DAG can orchestrate a workflow
 
 Some important fields to acknowledge:
 
