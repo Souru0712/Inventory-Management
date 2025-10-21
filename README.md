@@ -33,30 +33,40 @@ The containers are for initiating airflow services which will be essential for o
 For more information on how to setup yaml files for Apache Airflow, visit the Apache Airflow's main website. They posted a sample yaml file (https://airflow.apache.org/docs/apache-airflow/3.1.0/docker-compose.yaml) that includes all the necessary and customizable credentials for initiating airflow through Docker containers
 
 ## Initiating Apache Airflow
-1. make sure the containers are running in order to use the environment inside the container
-2. Open another window on the terminal to start using Airflow.
-    - "docker compose exec airflow-scheduler" is the necessary command to tell docker to run Airflow commands inside the                 scheduler who is responsible for running the services.
+1. Before running Airflow in the CLI, the containers must be running in order to use the environment inside the container
+2. Take a minute to inspect the dags folder. In it you will find more information about the necessary components for our dag scripts
+3. On another tab, run the Airflow CLI. "docker compose exec airflow-scheduler" is the necessary command to tell docker to run Airflow commands inside the scheduler who is responsible for running the services:
+   
     - Run this command to check existing dags in your dags folder: docker compose exec airflow-scheduler airflow dags list
+    - Run this command to unpause the dags and begin scheduling: docker compose exec airflow-scheduler airflow dags unpause business_day_simulator
+      
+Under Tutorials/Airflow CLI, there is a list of other airflow commands for other services as well
 
-Under Tutorials/Airflow CLI, there is a list of other airflow commands for other services as well.
+4. Expected output:
+    - creation of a CSV file with the corresponding date under logs folder
+    - email notifications being sent to the receiver Google email
+    - logging information containing inventory deduction quantity and order_id for Square reference
 
-3. Take a minute to inspect the dag scripts.
+## Performance Optimization
+Major changes in structure and code logic were made to improve the performance of orchestration:
 
-Each dag object has a "start_date" which determines the date at which the Scheduler should start
+Version 1: Originally, one scheduled DAG run would take about 3 minutes to complete:
+- API calls to deduct inventory were made per order, and CSV saves were per ingredient per order. Accumulation of network requests and I/O resulted in longer dag runs. Since catchup=True, the total time to complete ALL scheduled runs was amplified by the performance of a single scheduled run
+- Had 5 PythonOperators (
+  1. create csv
+  2. send alert
+  3. retrieve ingredients that needed restock and reorder
+  4. save the restock log into the CSV
+  5. simulate the business day )
 
-catchup=True: as soon as the dags start running, it will begin backfilling until the current date
-"schedule=@:" determines the frequency, so a daily schedule would increment every day until the current date
-"max_active_runs=1": allows sequential task processing.
-
-
-
-
-
-
-
-
-
-
+Version 2: single scheduled runs would take around 2 minutes, 1 mninute less than Version 1:
+- From single calls to Batch calls were sent to Square whenever possible. This meant that creating orders and deducting inventory has to be stored in lists and dictionaries to later be sent to Square as batches. Some batch deductions were capped to the 100 limit so a separate for-loop was introduced to slice the batch into micro-batch sends.
+- Incorporated batch saves to CSV as well. Introduced a counter to access timestamp element for logging order inventory deduction time based on order
+- limited API calls to fetch latest order every time to only once per day by creating a Reference_id() class and then incrementing one to mimic static property
+- compressed tasks from 5 to 3 PythonOperators (
+  1. create csv
+  2. send alert and manage restock into a single task
+  3. simulate business day)
 
 
 
