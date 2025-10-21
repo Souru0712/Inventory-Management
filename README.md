@@ -1,7 +1,7 @@
 # Inventory-Management
 A project that combines Docker containers and Apache Airflow orchestration to achieve automatic inventory management and sales reporting using Square's POS
 
-## Project Purpose
+## Disclaimer
 
 This project is shared publicly for **educational and demonstration purposes**.  
 It is intended to showcase concepts in inventory management systems, workflow automation, and system integration.  
