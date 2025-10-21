@@ -6,8 +6,7 @@ A project that combines Docker containers and Apache Airflow orchestration to ac
 This project is shared publicly for **educational and demonstration purposes**.  
 It is intended to showcase concepts in inventory management systems, workflow automation, and system integration.  
 
-To maintain security and protect sensitive configurations, only summaries and demonstrations are provided.  
-A companion video is available to illustrate how the services run and interact.
+To maintain security and protect sensitive configurations, only summaries and walkthroughs are provided.  
 
 You are welcome to **view and learn** from this project.  
 However, please **do not copy, redistribute, or use this code in production or commercial environments** without explicit permission from the author.
@@ -59,7 +58,7 @@ Version 1: Originally, one scheduled DAG run would take about 3 minutes to compl
   4. save the restock log into the CSV
   5. simulate the business day )
 
-Version 2: single scheduled runs would take around 2 minutes, 1 mninute less than Version 1:
+Version 2: single scheduled runs would take around 2 minutes, 1 minute less than Version 1:
 - From single calls to Batch calls were sent to Square whenever possible. This meant that creating orders and deducting inventory has to be stored in lists and dictionaries to later be sent to Square as batches. Some batch deductions were capped to the 100 limit so a separate for-loop was introduced to slice the batch into micro-batch sends.
 - Incorporated batch saves to CSV as well. Introduced a counter to access timestamp element for logging order inventory deduction time based on order
 - limited API calls to fetch latest order every time to only once per day by creating a Reference_id() class and then incrementing one to mimic static property
