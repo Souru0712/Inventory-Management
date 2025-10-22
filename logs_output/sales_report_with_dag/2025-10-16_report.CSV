@@ -1,0 +1,39 @@
+Name,Quantity,Price_per_unit,Total
+hot_Espresso,4,175,700
+iced_Espresso,11,250,2750
+hot_Doppio,4,325,1300
+iced_Doppio,8,400,3200
+hot_Macchiato,5,200,1000
+iced_Macchiato,5,275,1375
+hot_Doppio macchiato,6,350,2100
+iced_Doppio macchiato,3,425,1275
+hot_Cortado,7,350,2450
+iced_Cortado,5,425,2125
+hot_Cappuccino,5,375,1875
+iced_Cappuccino,9,450,4050
+hot_Flat white,7,375,2625
+iced_Flat white,2,575,1150
+hot_Pour over,4,200,800
+iced_Pour over,4,275,1100
+hot_Americano,12,350,4200
+iced_Americano,3,550,1650
+hot_Latte,2,450,900
+iced_Latte,6,525,3150
+hot_Mocha,10,500,5000
+iced_Mocha,2,575,1150
+hot_Red Eye,8,375,3000
+iced_Red Eye,9,450,4050
+hot_Black Eye,5,525,2625
+iced_Black Eye,5,600,3000
+regular_modification,15,0,0
+oat_modification,14,50,700
+almond_modification,21,50,1050
+soy_modification,16,50,800
+vanilla_modification,7,50,350
+caramel_modification,7,50,350
+hazelnut_modification,8,50,400
+chocolate_modification,9,50,450
+seasonal_modification,12,50,600
+extra_single_modification,12,150,1800
+extra_double_modification,8,275,2200
+Grand_total,,,67300
