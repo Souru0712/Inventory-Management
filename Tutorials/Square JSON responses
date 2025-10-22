@@ -1,4 +1,4 @@
-create order:
+CreateOrderResponse sample:
 
 {
   "order": {
@@ -258,7 +258,7 @@ create order:
   }
 }
 -------------------------------------------------------------------------------------------------------------------------------------
-batch change inventory
+Batch Change Inventory sample
 {
   "errors": [],
   "counts": [
@@ -271,4 +271,5 @@ batch change inventory
       "calculated_at": "2016-11-16T22:28:01.223Z"
     }
   ]
+
 }
