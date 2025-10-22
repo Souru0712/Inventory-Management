@@ -41,10 +41,17 @@ For more information on how to setup yaml files for Apache Airflow, visit the Ap
       
 Under Tutorials/Airflow CLI, there is a list of other airflow commands for other services as well
 
-4. Expected output:
-    - creation of a CSV file with the corresponding date under logs folder
+4. Expected output for business_day_simulator:
+    - creation of a CSV file with the corresponding date under logs folder (Sample output will be provided under logs_output)
     - email notifications being sent to the receiver Google email
     - logging information containing inventory deduction quantity and order_id for Square reference
+  
+5. The sales_report portion takes all the Order_id's from the CSV files, fetches the order's data to create an aggregation based on item and modifier for a corresponding date
+6. Expected output for sales_report:
+    - creation of a CSV file with the corresponding date under logs folder (Sample output will be provided under logs_output)
+    - A summation of all the menu's items and its total revenue generated
+    - A summation of all the modifiers used by items and its total revenue generated
+    - A grand total of all the revenue generated for the corresponding date
 
 ## Performance Optimization
 Major changes in structure and code logic were made to improve the performance of orchestration:
