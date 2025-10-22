@@ -74,7 +74,20 @@ Version 2: single scheduled runs would take around 2 minutes, 1 minute less than
   2. send alert and manage restock into a single task
   3. simulate business day)
 
+## Local runs
+For analytical experimentation, It is crucial to observe data over a big time frame in large scales. Here's some of the insight that could be gained:
+    - Summaries over different time periods (daily, weekly, monthly, yearly, etc)
+    - Group By ingredients, line_item, modifiers
+    - Aggregation on ingredients, cost, revenue, and profit.
 
+Simulator.py is a modified script of the Dag_Scheduler.
+    - It appends the deduction of inventory tracking in a single CSV file to eliminate the need of reading and
+        merging CSV dataframes.
+    - runs 1000 orders instead of 100 daily
+    - starts at January 1 and ends at December 31
+    - produces around 365K orders, with a total number of rows reaching 1.4 million
+    - Does NOT make any API calls to Square so it saves a ton of time for generating random data
 
+Since the file is too large to be uploaded, a link is pasted for downloading: https://drive.google.com/file/d/1BnTTYSdPfBc1GKIwabjC_2V7X52EpgAb/view?usp=sharing
 
 
