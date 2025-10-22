@@ -1,0 +1,130 @@
+⚙️ Components of a Docker service
+
+Term	        What it Means	                                                  Example
+
+image	        The Docker image to run (from Docker Hub or registry).	          image: postgres:16
+build	        Build an image from a Dockerfile.
+                Can define context, dockerfile, args.	                          build: .
+container_name  (Optional) Give the container a fixed name.	                      container_name: myapp
+ports	        Map ports from host to container (host:container).	              - "8000:80"
+volumes	        Mount a host folder or Docker volume into container.	          - ./src:/app
+environment	    Define environment variables inside the container.	              DEBUG=true
+env_file	    Load environment variables from a .env file.	                  .env
+depends_on	    Start order: this service depends on another.	                  depends_on: [db]
+command	        Override the default startup command.	                          command: python app.py
+entrypoint	    Override the container entrypoint.	                              entrypoint: ["/bin/sh"]
+restart	        Restart policy (no, always, on-failure, unless-stopped).	      restart: unless-stopped
+networks	    Connect the service to one or more networks.	                  networks: [backend]
+logging	        Configure logs (driver, options).	                              logging: { driver: "json-file" }
+healthcheck	    Define a command to check if the container is “healthy.”	      test: ["CMD", "curl", "-f", "http://localhost"]
+____________________________________________________________________________________________________________________________
+Airflow services in Docker
+
+airflow-scheduler - The scheduler monitors all tasks and dags, then triggers the task instances once their dependencies are complete.
+airflow-dag-processor - The DAG processor parses DAG files.
+airflow-api-server - The api server is available at http://localhost:8080.
+airflow-worker - The worker that executes the tasks given by the scheduler.
+airflow-triggerer - The triggerer runs an event loop for deferrable tasks.
+airflow-init - The initialization service.
+postgres - The database.
+redis - The redis - broker that forwards messages from scheduler to worker.
+
+🔹 Core Airflow Components (services)
+1. airflow-scheduler
+Role: The “brain” of Airflow. Continuously checks DAGs, figures out what tasks are ready to run (based on time, dependencies, retries, etc.),
+    and tells workers to execute them.
+When needed: Always. No DAGs run without it.
+Depends on: Database (Postgres/MySQL), message broker (Redis if CeleryExecutor).
+
+2. airflow-dag-processor
+Role: Parses DAG files independently of the scheduler.
+In Airflow ≥2.0, the scheduler can offload DAG parsing to separate DAG processor processes (better performance, isolation).
+When needed: If you have many DAGs or heavy parsing \ogic, enabling dedicated processors keeps the scheduler light.
+
+3. airflow-api-server
+Role: Serves the Airflow REST API (available at http://localhost:8080/api/v1/).
+Different from the webserver’s UI.
+Allows automation and programmatic interaction (e.g., trigger DAGs, fetch task status).
+When needed: Only if you plan to interact with Airflow programmatically (via scripts, CI/CD, external tools).
+
+4. airflow-worker
+Role: Executes the tasks scheduled by the scheduler.
+Required if you’re using CeleryExecutor or KubernetesExecutor (distributed task execution).
+In LocalExecutor, tasks run directly inside the scheduler process → no worker service needed.
+When needed: If you want scalable, distributed execution.
+
+5. airflow-triggerer
+Role: Handles deferrable operators (new in Airflow 2.2+).
+Instead of blocking a worker while waiting (e.g., waiting for a file, sensor, or API response), a task can “defer” execution.
+Triggerer keeps lightweight async event loops that wake tasks when their condition is met.
+When needed: If your DAGs use deferrable operators (e.g., HttpSensorAsync, FileSensorAsync). Great for scalability and cost efficiency.
+
+6. airflow-init
+Role: One-off initialization. Runs commands like:
+Create database schema (airflow db init)
+Create admin user (airflow users create)
+Apply DB migrations
+When needed: Only once before the system runs, or when upgrading Airflow.
+After that: It’s not part of the “always-on” services.
+
+🔹 Supporting Infrastructure
+7. postgres
+Role: Metadata database. Stores:
+DAG definitions (parsed metadata, not Python files themselves)
+Task states (success, failed, retry, queued)
+User accounts, connections, variables, XComs
+When needed: Always. Every Airflow deployment needs a backend DB.
+Alternatives: MySQL is also supported.
+
+8. redis
+Role: Message broker between scheduler and workers (for CeleryExecutor).
+Scheduler pushes “run this task” → Redis queue → Worker pulls and executes.
+When needed: If you’re using CeleryExecutor.
+Not needed: With LocalExecutor or SequentialExecutor.
+
+SUMMARY:
+Always required: scheduler, postgres, webserver (for UI, though you didn’t list it), sometimes dag-processor.
+Distributed execution: Add worker, redis.
+Async/deferrable tasks: Add triggerer.
+Automation/remote control: Add api-server.
+First-time setup: Run init.
+____________________________________________________________________________________________________________________________
+🔄 Why restart containers?
+1. Apply new configuration or code
+If you change:
+The Docker image (rebuilt with new code)
+Environment variables in docker-compose.yaml
+Mounted volumes (like new DAG files in Airflow, configs, or credentials)
+The running container won’t pick up those changes automatically.
+Restarting ensures the container reboots with the updated state.
+
+2. Clean up memory or file handles
+Long-running containers can accumulate memory usage, open file descriptors, or zombie processes (especially with Python apps).
+Restarting clears that state and starts from a clean slate.
+(Think of it like rebooting your computer after it’s been sluggish for days.)
+
+3. Database or service dependency refresh
+Suppose you restart your Postgres container.
+Your Airflow Scheduler may still think the DB connection exists and start failing.
+Restarting the Scheduler forces it to reconnect properly to Postgres.
+
+4. Log rotation / cleanup
+Containers often log to stdout/stderr. Over time, those logs can grow large.
+Restarting triggers Docker to rotate logs (depending on settings), preventing disk from filling up.
+
+5. Testing or debugging
+Sometimes you restart containers intentionally during development to:
+Force Airflow to reload DAGs (if you didn’t mount them as a live volume).
+Test initialization scripts (like airflow-init).
+Validate startup behavior (are migrations applied, does the app start correctly?).
+
+6. When containers depend on each other
+If Redis or Postgres restarts, your workers might not reconnect automatically.
+Restarting dependent services (Scheduler, Worker) ensures they re-establish communication.
+⚡ Types of restarts
+In docker-compose.yaml you can control this with restart: policy:
+no → never restart (default).
+on-failure → restart only if container exits with non-zero status.
+always → always restart, even if stopped manually.
+unless-stopped → restart unless you manually stop it.
+For production systems (like Airflow), usually restart: unless-stopped is used.

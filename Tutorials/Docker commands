@@ -1,0 +1,38 @@
+1. Starting services:
+    - regular build
+    docker-compose up
+
+    - build services with reference to the docker-compose.yaml file
+    docker-compose up -d
+
+    - build services with reference to the docker-compose.yaml file and Dockerfile
+    docker compose up -d --build
+
+2. Stopping all running containers:
+    docker-compose stop
+
+3. removes services:
+    - normal removal for containers
+    docker-compose down
+    - for deleting containers and its cached memory (**USE WITH PRECAUTION**. THERE ARE NO CONFIRMATIONS)
+    docker compose down -v
+
+4. Viewing logs:
+    - simplified log
+    docker-compose logs
+    - this shows the logs of the services. To follow logs in real-time:
+    docker-compose logs -f
+    - viewing the status of services:
+    docker-compose ps
+
+5. Executing a command inside a container:
+    docker-compose exec <service_name> <command>
+    docker-compose exec airflow-scheduler airflow
+
+6. Others
+    - build images (pre-built services taken from the official website):
+    docker-compose build
+
+    -scaling services:
+    docker-compose up --scale <service_name>=<number_of_instances>
+    docker-compose up --scale web=3

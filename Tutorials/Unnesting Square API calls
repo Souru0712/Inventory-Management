@@ -1,0 +1,304 @@
+type='ITEM'
+item_data=CatalogItem(
+    name='Espresso',
+    description='Concentrated shot of coffee',
+    abbreviation=None,
+    label_color=None,
+    is_taxable=True,
+    category_id=None,
+    tax_ids=None,
+    modifier_list_info=[
+        CatalogItemModifierListInfo(
+            modifier_list_id='JKWUQZLYJ5M5PDMGM7HPF2LU',
+            modifier_overrides=None,
+            min_selected_modifiers=None,
+            max_selected_modifiers=None,
+            enabled=True,
+            ordinal=None,
+            allow_quantities='NOT_SET',
+            is_conversational='NOT_SET',
+            hidden_from_customer_override='NOT_SET'),
+        CatalogItemModifierListInfo(
+            modifier_list_id='F2C4KKAZKPK5DIQQTJPSM57N',
+            modifier_overrides=None,
+            min_selected_modifiers=None,
+            max_selected_modifiers=None,
+            enabled=True,
+            ordinal=None,
+            allow_quantities='NOT_SET',
+            is_conversational='NOT_SET',
+            hidden_from_customer_override='NOT_SET'),
+        CatalogItemModifierListInfo(
+            modifier_list_id='IYXYNKNLGTKSOKJRZKKVBZRH',
+            modifier_overrides=None,
+            min_selected_modifiers=None,
+            max_selected_modifiers=None,
+            enabled=True,
+            ordinal=None,
+            allow_quantities='NOT_SET',
+            is_conversational='NOT_SET',
+            hidden_from_customer_override='NOT_SET')],
+    variations=[
+        CatalogObjectItemVariation(
+            type='ITEM_VARIATION',
+            item_variation_data=CatalogItemVariation(
+                item_id='MEOWTGMMF6BUF4TWVYD5UNL4',
+                name='Hot Espresso',
+                sku=None,
+                upc=None,
+                ordinal=0,
+                pricing_type='FIXED_PRICING',
+                price_money=Money(amount=175, currency='USD'),
+                location_overrides=None,
+                track_inventory=None,
+                inventory_alert_type=None,
+                inventory_alert_threshold=None,
+                user_data=None,
+                service_duration=None,
+                available_for_booking=None,
+                item_option_values=None,
+                measurement_unit_id=None,
+                sellable=True,
+                stockable=True,
+                image_ids=None,
+                team_member_ids=None,
+                stockable_conversion=None),
+            id='SYCO4W476O3KB4TVHY3KHJQP',
+            updated_at='2025-07-30T17:42:30.367Z',
+            version=1753897350367,
+            is_deleted=False,
+            custom_attribute_values=None,
+            catalog_v1ids=None,
+            present_at_all_locations=True,
+            present_at_location_ids=None,
+            absent_at_location_ids=None,
+            image_id=None,
+            created_at='2025-07-30T17:42:30.422Z'),
+        CatalogObjectItemVariation(
+            type='ITEM_VARIATION',
+            item_variation_data=CatalogItemVariation(
+                item_id='MEOWTGMMF6BUF4TWVYD5UNL4',
+                name='Iced Espresso',
+                sku=None,
+                upc=None,
+                ordinal=1,
+                pricing_type='FIXED_PRICING',
+                price_money=Money(amount=250, currency='USD'),
+                location_overrides=None,
+                track_inventory=None,
+                inventory_alert_type=None,
+                inventory_alert_threshold=None,
+                user_data=None,
+                service_duration=None,
+                available_for_booking=None,
+                item_option_values=None,
+                measurement_unit_id=None,
+                sellable=True,
+                stockable=True,
+                image_ids=None,
+                team_member_ids=None,
+                stockable_conversion=None),
+            id='EWPPYWV2DRP5LQEJ2M7LHIJY',
+            updated_at='2025-07-30T17:42:30.367Z',
+            version=1753897350367,
+            is_deleted=False,
+            custom_attribute_values=None,
+            catalog_v1ids=None,
+            present_at_all_locations=True,
+            present_at_location_ids=None,
+            absent_at_location_ids=None,
+            image_id=None, created_at='2025-07-30T17:42:30.422Z')],
+        product_type='REGULAR',
+        skip_modifier_screen=None,
+        item_options=None,
+        ecom_uri=None,
+        ecom_image_uris=None,
+        image_ids=None,
+        sort_name=None,
+        categories=None,
+        description_html='<p>Concentrated shot of coffee</p>',
+        description_plaintext='Concentrated shot of coffee',
+        channels=None,
+        is_archived=False,
+        ecom_seo_data=None,
+        food_and_beverage_details=None,
+        reporting_category=None, is_alcoholic=None)
+    id='MEOWTGMMF6BUF4TWVYD5UNL4'
+    updated_at='2025-07-30T17:42:30.367Z'
+    version=1753897350367
+    is_deleted=False
+    custom_attribute_values=None
+    catalog_v1ids=None
+    present_at_all_locations=True
+    present_at_location_ids=None
+    absent_at_location_ids=None
+    image_id=None
+    created_at='2025-07-30T17:42:30.422Z'
+-------------------------------------------------------------------------------------------------------------------------
+type='ITEM_VARIATION'
+item_variation_data=CatalogItemVariation(
+    item_id='N34GMGDY7G6UHGWYKCA3UH4G',
+    name='Almond (oz)',
+    sku=None,
+    upc=None,
+    ordinal=2,
+    pricing_type='FIXED_PRICING',
+    price_money=Money(amount=0, currency='USD'),
+    location_overrides=[
+        ItemVariationLocationOverrides(
+            location_id='L3ATMV72AV58D',
+            price_money=None,
+            pricing_type=None,
+            track_inventory=None,
+            inventory_alert_type=None,
+            inventory_alert_threshold=None,
+            sold_out=True, sold_out_valid_until=None),
+        ItemVariationLocationOverrides(
+            location_id='L7P7YENXAAKPY',
+            price_money=None,
+            pricing_type=None,
+            track_inventory=None,
+            inventory_alert_type=None,
+            inventory_alert_threshold=None,
+            sold_out=True, sold_out_valid_until=None)],
+    track_inventory=True,
+    inventory_alert_type='LOW_QUANTITY',
+    inventory_alert_threshold=128,
+    user_data=None,
+    service_duration=None,
+    available_for_booking=None,
+    item_option_values=None,
+    measurement_unit_id=None,
+    sellable=True,
+    stockable=True,
+    image_ids=None,
+    team_member_ids=None,
+    stockable_conversion=None)
+id='JQSKUBNIIX3S7H4ULMYXRNBK'
+updated_at='2025-08-05T01:01:28.512Z'
+version=1754355688512
+is_deleted=False
+custom_attribute_values=None
+catalog_v1ids=None
+present_at_all_locations=True
+present_at_location_ids=None
+absent_at_location_ids=None
+image_id=None
+created_at='2025-08-05T01:01:16.844Z'
+----------------------------------------------------------------------------------------------------------------------------
+order_entries=None
+orders=[
+    Order(id='BfvQJExCdoTuIoBaUtANgBbGeKGZY',
+        location_id='L3ATMV72AV58D',
+        reference_id='#0005',
+        source=OrderSource(name='Sandbox for sq0idp-HFVrfM6vy7oZXkt0MF3EMA'),
+        customer_id=None,
+        line_items=[
+            OrderLineItem(
+                uid='Q6KjqsfOsHLUrmZEYW42CC',
+                name='Espresso',
+                quantity='3',
+                quantity_unit=None,
+                note=None,
+                catalog_object_id='EWPPYWV2DRP5LQEJ2M7LHIJY',
+                catalog_version=1755120307464,
+                variation_name='Iced Espresso',
+                item_type='ITEM',
+                metadata=None,
+                modifiers=[
+                    OrderLineItemModifier(
+                        uid='1fE4ZTZYNePUJkKSIGDJ9B',
+                        catalog_object_id='WANRWQQIBE6EP4Q23GSLC3MC',
+                        catalog_version=1755120307464,
+                        name='Whole Milk',
+                        quantity='1',
+                        base_price_money=Money(amount=0, currency='USD'),
+                        total_price_money=Money(amount=0, currency='USD'),
+                        metadata=None),
+                    OrderLineItemModifier(
+                        uid='B05b6q4ZSCQPFY7yNuJpBC',
+                        catalog_object_id='ECHIFRUHAFI5BFIYYB5ZABH3',
+                        catalog_version=1755120307464,
+                        name='Caramel Syrup',
+                        quantity='1',
+                        base_price_money=Money(amount=50, currency='USD'),
+                        total_price_money=Money(amount=150, currency='USD'),
+                        metadata=None)
+                    ],
+                applied_taxes=None,
+                applied_discounts=None,
+                applied_service_charges=None,
+                base_price_money=Money(amount=250, currency='USD'),
+                variation_total_price_money=Money(amount=750, currency='USD'),
+                gross_sales_money=Money(amount=900, currency='USD'),
+                total_tax_money=Money(amount=0, currency='USD'),
+                total_discount_money=Money(amount=0, currency='USD'),
+                total_money=Money(amount=900, currency='USD'),
+                pricing_blocklists=None,
+                total_service_charge_money=Money(amount=0, currency='USD')),
+            OrderLineItem(
+                uid='LLTGgR92T2BqstIBCWFFZ',
+                name='Latte',
+                quantity='2',
+                quantity_unit=None,
+                note=None,
+                catalog_object_id='CUVXK6J3PS3HW4NHGJP4E747',
+                catalog_version=1755120307464,
+                variation_name='Iced Latte',
+                item_type='ITEM',
+                metadata=None,
+                modifiers=None,
+                applied_taxes=None,
+                applied_discounts=None,
+                applied_service_charges=None,
+                base_price_money=Money(amount=525, currency='USD'),
+                variation_total_price_money=Money(amount=1050, currency='USD'),
+                gross_sales_money=Money(amount=1050, currency='USD'),
+                total_tax_money=Money(amount=0, currency='USD'),
+                total_discount_money=Money(amount=0, currency='USD'),
+                total_money=Money(amount=1050, currency='USD'),
+                pricing_blocklists=None,
+                total_service_charge_money=Money(amount=0, currency='USD'))
+        ],
+        taxes=None,
+        discounts=None,
+        service_charges=None,
+        fulfillments=None,
+        returns=None,
+        return_amounts=None,
+        net_amounts=OrderMoneyAmounts(total_money=Money(amount=1950, currency='USD'),
+        tax_money=Money(amount=0, currency='USD'),
+        discount_money=Money(amount=0, currency='USD'),
+        tip_money=Money(amount=0, currency='USD'),
+        service_charge_money=Money(amount=0, currency='USD')),
+        rounding_adjustment=None,
+        tenders=None,
+        refunds=None,
+        metadata=None,
+        created_at='2025-08-15T03:39:56.778Z',
+        updated_at='2025-08-15T03:39:56.778Z',
+        closed_at=None,
+        state='OPEN',
+        version=1,
+        total_money=Money(amount=1950, currency='USD'),
+        total_tax_money=Money(amount=0, currency='USD'),
+        total_discount_money=Money(amount=0, currency='USD'),
+        total_tip_money=Money(amount=0, currency='USD'),
+        total_service_charge_money=Money(amount=0, currency='USD'),
+        ticket_name=None,
+        pricing_options=None,
+        rewards=None,
+        net_amount_due_money=Money(amount=1950, currency='USD'))
+    ]
+cursor='o049FtefUx8J8lDCdpJyPxWFAB3rxp3lylNDyD1uQGIyUQNWfezDDQ7s5T7iq4Z7GBjJOwQAdrIDtPf'
+errors=None
+----------------------------------------------------------------------------------------------------------------------------
+Example of total_ingredients
+
+([{'catalog_object_id': 'BPR4HYWT6KQJIF2A73CX2SED', 'quantity': '1', 'modifiers': [{'catalog_object_id': '7HTBD6PN4TFUBS3RNDJRII7O'}]},
+{'catalog_object_id': 'BPR4HYWT6KQJIF2A73CX2SED', 'quantity': '1', 'modifiers': [{'catalog_object_id': 'ECHIFRUHAFI5BFIYYB5ZABH3'}]},
+{'catalog_object_id': 'JGKUMKMTXNIC3JNZA3BITY6T', 'quantity': '2', 'modifiers': []},
+{'catalog_object_id': '5MBAHPS6NVLTIZZVSZ3SLJA5', 'quantity': '1', 'modifiers': []},
+{'catalog_object_id': '5MBAHPS6NVLTIZZVSZ3SLJA5', 'quantity': '2', 'modifiers': [{'catalog_object_id': 'JTSUDXED7KV2COIUAIVZ4C7N'}]}],
+
+{'COGQI7UOMOXPGB6OCFVMYYCZ': 117, '7TH4LY4J326TN2LTHWCY52U4': 5, '5ZY5TZP2RBDTML5E5VYCWIJT': 4, '2ZS64JLNN7UKXUD73RPZVS54': 8, 'UOUXULB3S3YRVEXMJ556FX4N': 3, 'P223767JRX55FNOWOQKRTFA2': 2, 'OZS5AHORDXUBIHW54H3EMV7T': 6})

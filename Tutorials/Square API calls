@@ -1,0 +1,388 @@
+1. import the necessary packages to access a client's account and set the
+sandbox mode
+
+from square.client import Square
+from square.environment import SquareEnvironment
+from Config_Loader import load_config
+
+config = load_config()
+
+#Set the environment
+client = Square(
+    environment=SquareEnvironment.SANDBOX,
+    token= config['SQUARE']['api_key']
+)
+
+create the client which holds the user's credentials.
+We can then use the client to make requests to the API
+
+NOTE: This kind of API is not a REST API since it does not use
+the standard 'requests' package and use HTTP requests to get data and authenticate them
+------------------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------------
+Location
+
+client.locations.create(
+    location={
+        "name": "Midtown",
+        "description": "Midtown Atlanta store",
+        "address": {
+            "address_line1": "1234 Peachtree St. NE",
+            "locality": "Atlanta",
+            "administrative_district_level1": "GA",
+            "postal_code": "30309"
+        }
+    }
+)
+
+client.locations.list()
+
+client.locations.update(
+    location_id="3Z4V4WHQK64X9",
+    location={
+        "description": "Midtown Atlanta store - Open weekends",
+        "business_hours": {
+            "periods": [
+                {
+                    "day_of_week": "FRI",
+                    "start_local_time": "07:00",
+                    "end_local_time": "18:00"
+                },
+                {
+                    "day_of_week": "SAT",
+                    "start_local_time": "07:00",
+                    "end_local_time": "18:00"
+                },
+                {
+                    "day_of_week": "SUN",
+                    "start_local_time": "09:00",
+                    "end_local_time": "15:00"
+                }
+            ]
+        }
+    }
+)
+------------------------------------------------------------------------------------------------------------------------
+Catalog
+
+client.catalog.batch_upsert(
+    idempotency_key="789ff020-f723-43a9-b4b5-43b5dc1fa3dc",
+    batches=[
+        {
+            "objects": [
+                {
+                    "type": "ITEM",
+                    "id": "#Tea",
+                    "present_at_all_locations": True,
+                    "item_data": {
+                        "name": "Tea",
+                        "description_html": "<p><strong>Hot</strong> Leaf Juice</p>",
+                        "categories": [
+                            {
+                                "id": "#Beverages"
+                            }
+                        ],
+                        "tax_ids": [
+                            "#SalesTax"
+                        ],
+                        "variations": [
+                            {
+                                "type": "ITEM_VARIATION",
+                                "id": "#Tea_Mug",
+                                "present_at_all_locations": True,
+                                "item_variation_data": {
+                                    "item_id": "#Tea",
+                                    "name": "Mug",
+                                    "pricing_type": "FIXED_PRICING",
+                                    "price_money": {
+                                        "amount": 150,
+                                        "currency": "USD"
+                                    }
+                                }
+                            }
+                        ]
+                    }
+                },
+                {
+                    "type": "ITEM",
+                    "id": "#Coffee",
+                    "present_at_all_locations": True,
+                    "item_data": {
+                        "name": "Coffee",
+                        "description_html": "<p>Hot <em>Bean Juice</em></p>",
+                        "categories": [
+                            {
+                                "id": "#Beverages"
+                            }
+                        ],
+                        "tax_ids": [
+                            "#SalesTax"
+                        ],
+                        "variations": [
+                            {
+                                "type": "ITEM_VARIATION",
+                                "id": "#Coffee_Regular",
+                                "present_at_all_locations": True,
+                                "item_variation_data": {
+                                    "item_id": "#Coffee",
+                                    "name": "Regular",
+                                    "pricing_type": "FIXED_PRICING",
+                                    "price_money": {
+                                        "amount": 250,
+                                        "currency": "USD"
+                                    }
+                                }
+                            },
+                            {
+                                "type": "ITEM_VARIATION",
+                                "id": "#Coffee_Large",
+                                "present_at_all_locations": True,
+                                "item_variation_data": {
+                                    "item_id": "#Coffee",
+                                    "name": "Large",
+                                    "pricing_type": "FIXED_PRICING",
+                                    "price_money": {
+                                        "amount": 350,
+                                        "currency": "USD"
+                                    }
+                                }
+                            }
+                        ]
+                    }
+                },
+                {
+                    "type": "CATEGORY",
+                    "id": "#Beverages",
+                    "present_at_all_locations": True,
+                    "category_data": {
+                        "name": "Beverages"
+                    }
+                },
+                {
+                    "type": "TAX",
+                    "id": "#SalesTax",
+                    "present_at_all_locations": True,
+                    "tax_data": {
+                        "name": "Sales Tax",
+                        "calculation_phase": "TAX_SUBTOTAL_PHASE",
+                        "inclusion_type": "ADDITIVE",
+                        "percentage": "5.0",
+                        "applies_to_custom_amounts": True,
+                        "enabled": True
+                    }
+                }
+            ]
+        }
+    ]
+)
+
+client.catalog.object.upsert(
+    idempotency_key="af3d1afc-7212-4300-b463-0bfc5314a5ae",
+    object={
+        "type": "ITEM",
+        "id": "#Cocoa",
+        "item_data": {
+            "abbreviation": "Ch",
+            "description": "Hot Chocolate",
+            "name": "Cocoa",
+            "variations": [
+                {
+                    "type": "ITEM_VARIATION",
+                    "id": "#Small",
+                    "item_variation_data": {
+                        "item_id": "#Cocoa",
+                        "name": "Small",
+                        "pricing_type": "VARIABLE_PRICING"
+                    }
+                },
+                {
+                    "type": "ITEM_VARIATION",
+                    "id": "#Large",
+                    "item_variation_data": {
+                        "item_id": "#Cocoa",
+                        "name": "Large",
+                        "pricing_type": "FIXED_PRICING",
+                        "price_money": {
+                            "amount": 400,
+                            "currency": "USD"
+                        }
+                    }
+                }
+            ]
+        }
+    }
+)
+
+client.catalog.list()
+
+client.catalog.batch_delete(
+    object_ids=[
+        "W62UWFY35CWMYGVWK6TWJDNI",
+        "AA27W3M2GGTF3H6AVPNB77CK"
+    ]
+)
+------------------------------------------------------------------------------------------------------------------------
+Inventory
+
+client.inventory.batch_get_counts(
+    catalog_object_ids=[
+        "W62UWFY35CWMYGVWK6TWJDNI"
+    ],
+    location_ids=[
+        "59TNP9SA8VGDA"
+    ],
+    updated_after="2016-11-16T00:00:00.000Z"
+)
+
+client.inventory.batch_create_changes(
+    idempotency_key="8fc6a5b0-9fe8-4b46-b46b-2ef95793abbe",
+    changes=[
+        {
+            "type": "PHYSICAL_COUNT",
+            "physical_count": {
+                "reference_id": "1536bfbf-efed-48bf-b17d-a197141b2a92",
+                "catalog_object_id": "W62UWFY35CWMYGVWK6TWJDNI",
+                "state": "IN_STOCK",
+                "location_id": "C6W5YS5QM06F5",
+                "quantity": "53",
+                "team_member_id": "LRK57NSQ5X7PUD05",
+                "occurred_at": "2016-11-16T22:25:24.878Z"
+            }
+        }
+    ],
+    ignore_unchanged_counts=True
+)
+
+client.inventory.batch_get_changes(
+    catalog_object_ids=[
+        "W62UWFY35CWMYGVWK6TWJDNI"
+    ],
+    location_ids=[
+        "C6W5YS5QM06F5"
+    ],
+    types=[
+        "PHYSICAL_COUNT"
+    ],
+    states=[
+        "IN_STOCK"
+    ],
+    updated_after="2016-11-01T00:00:00.000Z",
+    updated_before="2016-12-01T00:00:00.000Z"
+)
+
+------------------------------------------------------------------------------------------------------------------------
+Orders
+
+client.orders.create(
+    idempotency_key="8193148c-9586-11e6-99f9-28cfe92138cf",
+    order={
+        "reference_id": "my-order-001",
+        "location_id": "057P5VYJ4A5X1",
+        "line_items": [
+            {
+                "name": "New York Strip Steak",
+                "quantity": "1",
+                "base_price_money": {
+                    "amount": 1599,
+                    "currency": "USD"
+                }
+            },
+            {
+                "quantity": "2",
+                "catalog_object_id": "BEMYCSMIJL46OCDV4KYIKXIB",
+                "modifiers": [
+                    {
+                        "catalog_object_id": "CHQX7Y4KY6N5KINJKZCFURPZ"
+                    }
+                ],
+                "applied_discounts": [
+                    {
+                        "discount_uid": "one-dollar-off"
+                    }
+                ]
+            }
+        ]
+    }
+)
+
+client.orders.update(
+    order_id="DREk7wJcyXNHqULq8JJ2iPAsluJZY",
+    idempotency_key="UNIQUE_STRING",
+    order={
+        "version": 1,
+        "line_items": [
+            {
+                "uid": "cookie_uid",
+                "quantity": "2",
+                "name": "COOKIE",
+                "base_price_money": {
+                    "amount": 200,
+                    "currency": "USD"
+                }
+            }
+        ]
+    },
+    fields_to_clear=[
+        "discounts"
+    ]
+)
+
+client.orders.search(
+    return_entries=True,
+    limit=3,
+    location_ids=[
+        "057P5VYJ4A5X1",
+        "18YC4JDH91E1H"
+    ],
+    query={
+        "filter": {
+            "date_time_filter": {
+                "closed_at": {
+                    "start_at": "2018-03-03T20:00:00+00:00",
+                    "end_at": "2019-03-04T21:54:45+00:00"
+                }
+            },
+            "state_filter": {
+                "states": [
+                    "COMPLETED"
+                ]
+            }
+        },
+        "sort": {
+            "sort_field": "CLOSED_AT",
+            "sort_order": "DESC"
+        }
+    }
+)
+
+client.orders.get(
+    order_id="CAISENgvlJ6jLWAzERDzjyHVybY"
+)
+
+client.orders.batch_get(
+    location_id="057P5VYJ4A5X1",
+    order_ids=[
+        "CAISEM82RcpmcFBM0TfOyiHV3es",
+        "CAISENgvlJ6jLWAzERDzjyHVybY"
+    ]
+)
+------------------------------------------------------------------------------------------------------------------------
+Payment
+
+client.payments.create(
+    idempotency_key="7b0f3ec5-086a-4871-8f13-3c81b3875218",
+    amount_money={
+        "amount": 1000,
+        "currency": "USD"
+    },
+    source_id="ccof:GaJGNaZa8x4OgDJn4GB",
+    autocomplete=True,
+    customer_id="W92WH6P11H4Z77CTET0RNTGFW8",
+    location_id="L88917AVBK2S5",
+    reference_id="123456",
+    note="Brief description",
+    app_fee_money={
+        "amount": 10,
+        "currency": "USD"
+    }
+)

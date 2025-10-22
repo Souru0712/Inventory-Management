@@ -1,0 +1,81 @@
+#for checking dags list
+docker compose exec airflow-scheduler airflow dags list
+
+#for clearing errors found in tasks
+docker compose exec airflow-scheduler airflow tasks clear my_dag_id -s 2025-08-29 -e 2025-10-15 --yes
+docker compose exec airflow-scheduler airflow tasks clear -d business_day_simulator --start-date 2025-09-23 --end-date 2025-09-23 --only-failed
+
+#for resetting tasks (NOT DAGs)
+docker compose exec airflow-scheduler airflow tasks clear business_day_simulator --yes
+docker compose exec airflow-scheduler airflow dags unpause business_day_simulator
+docker compose exec airflow-scheduler airflow dags pause business_day_simulator
+
+#for creating manual backfills (unlike scheduling)
+docker compose exec airflow-scheduler airflow backfill create --dag-id business_day_simulator --from-date 2025-08-29 --to-date 2025-10-16 --reprocess-behavior completed
+docker compose exec airflow-scheduler airflow backfill create --dag-id business_day_simulator --from-date 2025-09-23 --reprocess-behavior failed --to-date 2025-10-16
+
+#for deleting dag records and history. Full reset for Dags
+docker compose exec airflow-scheduler airflow dags delete business_day_simulator --yes
+
+#for full list of commands:
+
+    General commands
+    airflow version: Shows the current Airflow version.
+    airflow info: Displays useful information about your Airflow installation, including database, configuration, and executor.
+
+    DAG management
+    airflow dags list: Lists all DAGs in the DAG folder.
+    airflow dags pause <dag_id>: Pauses a DAG to prevent new runs.
+    airflow dags unpause <dag_id>: Unpauses a DAG.
+    airflow dags trigger <dag_id>: Triggers a DAG run. You can pass a JSON config with -c '{"param": "value"}'.
+    airflow dags delete <dag_id>: Deletes all database records related to a DAG. Use -y to skip the confirmation prompt.
+    airflow dags list-runs <dag_id>: Lists all past runs for a specific DAG.
+    airflow dags list-import-errors: Lists any errors encountered while parsing DAG files.
+    airflow dags next-execution <dag_id>: Shows the next scheduled execution datetime for a DAG.
+    airflow dags backfill -s 2025-08-01 -e 2025-10-15 my_dag_id
+
+    Task management
+    airflow tasks list <dag_id>: Lists all tasks within a specific DAG.
+    airflow tasks test <dag_id> <task_id> <execution_date>: Tests a single task instance. It runs the task locally without checking dependencies or recording state in the database.
+    airflow tasks state <dag_id> <task_id> <execution_date>: Gets the status of a specific task instance.
+    airflow tasks clear <dag_id>: Clears a task's state to be re-run, with options to clear upstream or downstream tasks.
+    airflow tasks render <dag_id> <task_id> <execution_date>: Renders a task instance's template(s), useful for debugging Jinja templating.
+    airflow tasks run <dag_id> <task_id> <execution_date>: Executes a task instance, respecting dependencies and recording state in the database.
+
+    Database management
+    airflow db migrate: Upgrades the metadata database to the latest version. (Deprecates airflow db upgrade)
+    airflow db reset: Wipes and rebuilds the metadata database from scratch. Use with caution, as it will delete all data.
+    airflow db check: Checks if the database can be reached.
+    airflow db shell: Runs a shell to access the database directly.
+
+    Service management
+    airflow webserver: Starts the Airflow web server.
+    airflow scheduler: Starts the Airflow scheduler.
+    airflow worker: Starts a Celery worker node (if using CeleryExecutor).
+    airflow celery flower: Starts a Celery Flower instance for monitoring workers (if using CeleryExecutor).
+
+    User management (requires RBAC)
+    airflow users create: Creates a new user for the web UI.
+    Example: airflow users create -u user1 -e user@example.com -f user -l one -p password -r Admin
+    airflow users list: Lists all registered users.
+    airflow users delete -u <username>: Deletes a specific user.
+
+    Variable management
+    airflow variables set <key> <value>: Sets a new variable or updates an existing one.
+    airflow variables get <key>: Retrieves the value of a variable.
+    airflow variables list: Lists all variables.
+    airflow variables export <file_path.json>: Exports all variables to a JSON file.
+    airflow variables import <file_path.json>: Imports variables from a JSON file.
+    airflow variables delete <key>: Deletes a specific variable.
+
+    Connection management
+    airflow connections add <conn_id>: Adds a new connection. Requires a URI, or connection type and other parameters.
+    airflow connections delete <conn_id>: Deletes a connection.
+    airflow connections list: Lists all connections.
+    airflow connections export <file_path.json>: Exports connections to a file.
+    airflow connections import <file_path.json>: Imports connections from a file.
+
+    Pool management
+    airflow pools list: Lists all pools.
+    airflow pools set <name> <slots> <description>: Sets a pool's slot count and description.
+    airflow pools delete <name>: Deletes a pool.
